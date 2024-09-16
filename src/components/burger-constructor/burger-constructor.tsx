@@ -8,6 +8,7 @@ import {
   clearOrder
 } from '../../services/slices/newOrderSlice';
 import { clearConstructor } from '../../services/slices/burgerConstructorSlice';
+import { selectUser } from '../../services/slices/userSlice';
 
 export const BurgerConstructor: FC = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export const BurgerConstructor: FC = () => {
   const userIsAuth = useSelector((state) => state.userData.isAuthChecked);
   const constructorItems = useSelector((state) => state.burgerConstructor);
   const { orderRequest, order } = useSelector((state) => state.newOrder);
+  const user = useSelector(selectUser);
 
   const price = useMemo(
     () =>
@@ -29,8 +31,9 @@ export const BurgerConstructor: FC = () => {
   );
 
   const onOrderClick = useCallback(() => {
-    if (!userIsAuth) {
+    if (!user) {
       navigate('/login');
+      return;
     }
 
     if (constructorItems.bun && constructorItems.ingredients.length > 0) {
@@ -39,13 +42,14 @@ export const BurgerConstructor: FC = () => {
         ...constructorItems.ingredients.map((ingredient) => ingredient._id),
         constructorItems.bun._id
       ];
-      dispatch(newBurgerOrder(dataToOrder));
+      dispatch(newBurgerOrder(dataToOrder)).then(() => {
+        dispatch(clearConstructor());
+      });
     }
   }, [userIsAuth, constructorItems, dispatch, navigate]);
 
   const closeOrderModal = () => {
     dispatch(clearOrder());
-    dispatch(clearConstructor());
     navigate('/');
   };
 

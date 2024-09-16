@@ -56,7 +56,8 @@ const UserSlice = createSlice({
     }
   },
   selectors: {
-    getUserState: (state) => state
+    getUserState: (state) => state,
+    selectUser: (state) => state.user
   },
   extraReducers: (builder) => {
     builder
@@ -87,6 +88,7 @@ const UserSlice = createSlice({
         Object.assign(state, initialState);
         localStorage.removeItem('refreshToken');
         deleteCookie('accessToken');
+        state.user = null;
       });
     builder
       .addCase(getUser.pending, (state, action) => {})
@@ -113,4 +115,4 @@ const UserSlice = createSlice({
 
 export const userReducer = UserSlice.reducer;
 export const { setUser, authCheck } = UserSlice.actions;
-export const { getUserState } = UserSlice.selectors;
+export const { getUserState, selectUser } = UserSlice.selectors;

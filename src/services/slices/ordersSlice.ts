@@ -22,9 +22,7 @@ const ordersSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getOrders.pending, (state) => {})
-      .addCase(getOrders.rejected, (state, action) => {
-        // is it ok to add a console.log about error?
-      })
+      .addCase(getOrders.rejected, (state, action) => {})
       .addCase(getOrders.fulfilled, (state, action) => {
         state.orders = action.payload;
       });

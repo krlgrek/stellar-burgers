@@ -27,7 +27,7 @@ const newOrderSlice = createSlice({
   initialState,
   reducers: {
     clearOrder: (state) => {
-      state = initialState;
+      state.order = null;
     }
   },
   selectors: {
