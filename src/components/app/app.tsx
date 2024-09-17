@@ -41,14 +41,21 @@ const App = () => {
       <AppHeader />
       <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
-        <Route path='/ingredients/:id' element={<IngredientDetails />} />
+        <Route
+          path='/ingredients/:id'
+          element={
+            <div className={styles.detailPageWrap}>
+              <IngredientDetails />
+            </div>
+          }
+        />
         <Route path='/feed' element={<Feed />} />
         <Route
           path='/feed/:number'
           element={
-            <Modal title={''} onClose={closeModal}>
+            <div className={styles.detailPageWrap}>
               <OrderInfo />
-            </Modal>
+            </div>
           }
         />
         <Route
@@ -122,7 +129,7 @@ const App = () => {
           <Route
             path='/ingredients/:id'
             element={
-              <Modal title={'Детали ингридиента'} onClose={closeModal}>
+              <Modal title={''} onClose={closeModal}>
                 <IngredientDetails />
               </Modal>
             }
